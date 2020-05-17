@@ -1,0 +1,10 @@
+version: '3.0'
+
+services:
+  tor:
+    build:
+      context: .
+    volumes:
+      - ./hidden_service:/hidden_service
+      - ./tor-share:/share
+    container_name: 'tor'

@@ -15,7 +15,7 @@
 
 **Execution -**
 
-1. run `python keygen.py <prefix>` (your onion hostname will be printed on console)
+1. run `python keygen_v2.py <prefix>` (your onion hostname will be printed on console)
 2. `docker-compose up` (wait for few seconds for site to come up)
 
 And that's it :)

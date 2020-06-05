@@ -56,14 +56,12 @@ def find_onion(public_bytes):
     # take first 16 bytes and append .onion
     return str(b32[:16].lower()) + '.onion'
 
-# get public part  of private key
-def get_public_part(private_key):
+# get der encoded public bytes of private key
+def get_public_bytes(private_key):
     # get public key from private key
     public_key = private_key.public_key()
     # get public key as bytes
-    public_bytes = public_key.public_bytes(encoding = serialization.Encoding.PEM, format = serialization.PublicFormat.PKCS1).decode('utf-8')
-    # remove first and last line (key header and footer)
-    return ''.join(public_bytes.splitlines()[1:-1])
+    return public_key.public_bytes(encoding = serialization.Encoding.DER, format = serialization.PublicFormat.PKCS1)
 
 # match if onion address starts with desired prefix
 def match(desired, onion):
@@ -109,9 +107,7 @@ def run(desired):
         # generate private and public key pair
         private_key = get_rsa_key(e, s)
         # get public part of private key
-        public_part = get_public_part(private_key)
-        # decode public part
-        public_bytes = bytearray(base64.b64decode(public_part))
+        public_bytes = get_public_bytes(private_key)
         # size of public exponent always 3 bytes
         while e > 0x7fff:
             # change public exponent in original public key (last 3 bytes changed)
